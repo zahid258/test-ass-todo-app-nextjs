@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useTaskStore } from "@/store/taskStore";
-import { TaskStatus } from "@/types/task";
+import { TaskStatus } from "@/models";
+
 
 const TaskForm = () => {
   const [title, setTitle] = useState("");

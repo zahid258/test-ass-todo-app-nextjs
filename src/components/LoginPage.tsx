@@ -21,7 +21,7 @@ const Login = () => {
       password,
     });
 
-console.log("🚀 ~ handleLogin ~ response.data:", response.data)
+
 
     if (response.status) {
       setAuth(response.data.token, response.data.role, response.data);

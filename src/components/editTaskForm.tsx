@@ -1,27 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { XCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { IDataSourceResponse, IToDoRequest, IToDoResponse, IUserResponse, TaskStatus, taskStatuses } from "@/models";
+import {
+  IDataSourceResponse,
+  IToDoRequest,
+  IToDoResponse,
+  IUserResponse,
+  TaskStatus,
+  taskStatuses,
+} from "@/models";
 import { useAuthStore } from "@/store/authStore";
 import { useQuery } from "@tanstack/react-query";
-import { createTodos } from "./apis";
+import { editTodos } from "./apis";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { object } from "framer-motion/client";
 interface TaskFormProps {
-  onClose: () => void;
+  onClose: Dispatch<SetStateAction<boolean>>;
+  task: IToDoResponse
 }
 
-const TaskFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
-  const [title, setTitle] = useState("");
-    const { setAuth,  token} = useAuthStore();
-  
-  const [description, setDescription] = useState("");
+const EditTaskFormModal: React.FC<TaskFormProps> = ({ onClose, task }) => {
+  console.log("task", task);
+  const [title, setTitle] = useState(task?.todo);
+  const { setAuth, token } = useAuthStore();
+  const [description, setDescription] = useState(task?.details);
   const [assignee, setAssignee] = useState<string | null>(null);
   const [status, setStatus] = useState<TaskStatus>("PENDING");
   const [users, setUsers] = useState<Array<IUserResponse>>([]);
   const queryClient = useQueryClient();
-
 
   const mutation = useMutation({
     mutationFn: (payload: {
@@ -30,16 +37,15 @@ const TaskFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
       userId: string | null;
       dueDate: Date;
       status: TaskStatus;
-    }) => createTodos(token, payload), // Ensure this returns a promise
+    }) => editTodos(token, payload), // Ensure this returns a promise
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
-      onClose();
+      onClose(false);
     },
     onError: (error) => {
       console.error("Error submitting task:", error);
     },
   });
-
 
   useEffect(() => {
     // Fetch users from the API
@@ -65,8 +71,8 @@ const TaskFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
           },
           {
             headers: {
-              'Authorization': `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         setUsers(response.data.data);
@@ -88,11 +94,11 @@ const TaskFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
       userId: assignee,
       dueDate: new Date().toISOString(), // Convert to ISO string
       status: status,
+      id:task?.id
     };
 
     mutation.mutate(createTodosPayload as any);
   };
-
 
   return (
     <motion.div
@@ -103,7 +109,7 @@ const TaskFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
       <div className="bg-gray-800 p-6 rounded-lg w-96">
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-bold">Create Task</h2>
-          <XCircle className="cursor-pointer" onClick={onClose} />
+          <XCircle className="cursor-pointer" onClick={() => onClose(false)} />
         </div>
         <form onSubmit={handleSubmit} className="mt-4">
           <input
@@ -141,7 +147,9 @@ const TaskFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
             <option value="" hidden disabled>
               Select Status
             </option>
-            {taskStatuses.map(x =>  <option value={x}>{x}</option>)}
+            {taskStatuses.map((x) => (
+              <option value={x}>{x}</option>
+            ))}
             {/* Add your status options here */}
           </select>
           <button
@@ -156,4 +164,4 @@ const TaskFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
   );
 };
 
-export default TaskFormModal;
+export default EditTaskFormModal;
