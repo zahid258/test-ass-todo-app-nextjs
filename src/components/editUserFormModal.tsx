@@ -85,13 +85,13 @@ const EditUserFormModal: React.FC<TaskFormProps> = ({ onClose, user }) => {
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center"
     >
-      <div className="bg-gray-800 p-6 rounded-lg w-96">
+      <div className="bg-white p-6 rounded-lg w-96">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-bold text-white">Create User</h2>
+          <h2 className="text-lg font-bold text-gray-800">Update User</h2>
           <XCircle
-            className="cursor-pointer text-white"
+            className="cursor-pointer text-gray-800"
             onClick={() => onClose(false)}
           />
         </div>
@@ -102,7 +102,7 @@ const EditUserFormModal: React.FC<TaskFormProps> = ({ onClose, user }) => {
           <input
             type="text"
             placeholder="First Name"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("firstName", { required: "First Name is required" })}
           />
           {errors.firstName && (
@@ -112,14 +112,14 @@ const EditUserFormModal: React.FC<TaskFormProps> = ({ onClose, user }) => {
           <input
             type="text"
             placeholder="Middle Name"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("middleName")}
           />
 
           <input
             type="text"
             placeholder="Last Name"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("lastName", { required: "Last Name is required" })}
           />
           {errors.lastName && (
@@ -129,7 +129,7 @@ const EditUserFormModal: React.FC<TaskFormProps> = ({ onClose, user }) => {
           <input
             type="text"
             placeholder="User Name"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("userName", { required: "User Name is required" })}
           />
           {errors.userName && (
@@ -139,7 +139,7 @@ const EditUserFormModal: React.FC<TaskFormProps> = ({ onClose, user }) => {
           <input
             type="email"
             placeholder="Email"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("email")}
           />
           {errors.email && (
@@ -149,7 +149,7 @@ const EditUserFormModal: React.FC<TaskFormProps> = ({ onClose, user }) => {
           <input
             type="password"
             placeholder="Password"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("password")}
           />
           {errors.password && (
@@ -157,7 +157,7 @@ const EditUserFormModal: React.FC<TaskFormProps> = ({ onClose, user }) => {
           )}
 
           <select
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("gender", { required: "Gender is required" })}
           >
             <option value="" hidden>
@@ -173,7 +173,7 @@ const EditUserFormModal: React.FC<TaskFormProps> = ({ onClose, user }) => {
 
           <input
             type="date"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("dateOfBirth", {
               required: "Date of Birth is required",
             })}
@@ -185,7 +185,7 @@ const EditUserFormModal: React.FC<TaskFormProps> = ({ onClose, user }) => {
           <input
             type="number"
             placeholder="Phone Number"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("phoneNum", {
               required: "Phone Number is required",
               minLength: {
@@ -197,12 +197,12 @@ const EditUserFormModal: React.FC<TaskFormProps> = ({ onClose, user }) => {
           {errors.phoneNum && (
             <span className="text-red-500">{errors.phoneNum.message}</span>
           )}
-        
+
           <button
             className="mt-4 w-full bg-blue-500 py-2 rounded text-white hover:bg-blue-600"
             type="submit"
           >
-            Add User
+       Save
           </button>
         </form>
       </div>

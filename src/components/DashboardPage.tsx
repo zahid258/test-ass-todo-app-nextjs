@@ -23,13 +23,13 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex flex-col justify-center items-center h-screen bg-gray-900 text-white">
+      <div className="flex flex-col justify-center items-center h-screen bg-white text-white">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
           className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full"
         />
-        <p className="mt-4 text-lg text-gray-300 animate-pulse">
+        <p className="mt-4 text-lg text-black animate-pulse">
           Loading your dashboard...
         </p>
       </div>

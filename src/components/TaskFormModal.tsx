@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 import { XCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { IDataSourceResponse, IToDoRequest, IToDoResponse, IUserResponse, TaskStatus, taskStatuses } from "@/models";
+import {
+  IDataSourceResponse,
+  IToDoRequest,
+  IToDoResponse,
+  IUserResponse,
+  TaskStatus,
+  taskStatuses,
+} from "@/models";
 import { useAuthStore } from "@/store/authStore";
 import { useQuery } from "@tanstack/react-query";
 import { createTodos } from "./apis";
@@ -14,14 +21,13 @@ interface TaskFormProps {
 
 const TaskFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
   const [title, setTitle] = useState("");
-    const { setAuth,  token} = useAuthStore();
-  
+  const { setAuth, token } = useAuthStore();
+
   const [description, setDescription] = useState("");
   const [assignee, setAssignee] = useState<string | null>(null);
   const [status, setStatus] = useState<TaskStatus>("PENDING");
   const [users, setUsers] = useState<Array<IUserResponse>>([]);
   const queryClient = useQueryClient();
-
 
   const mutation = useMutation({
     mutationFn: (payload: {
@@ -39,7 +45,6 @@ const TaskFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
       console.error("Error submitting task:", error);
     },
   });
-
 
   useEffect(() => {
     // Fetch users from the API
@@ -65,8 +70,8 @@ const TaskFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
           },
           {
             headers: {
-              'Authorization': `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         setUsers(response.data.data);
@@ -93,34 +98,38 @@ const TaskFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
     mutation.mutate(createTodosPayload as any);
   };
 
-
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center px-4 z-50"
     >
-      <div className="bg-gray-800 p-6 rounded-lg w-96">
+      <div className="bg-white p-6 rounded-lg w-96 text-black">
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-bold">Create Task</h2>
           <XCircle className="cursor-pointer" onClick={onClose} />
         </div>
         <form onSubmit={handleSubmit} className="mt-4">
+          {/* Task Title */}
           <input
             type="text"
             placeholder="Task Title"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+
+          {/* Task Description */}
           <textarea
             placeholder="Task Description"
-            className="w-full p-2 mt-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 mt-2 bg-white border border-gray-300 rounded text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+
+          {/* Assignee */}
           <select
-            className="w-full p-2 mt-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 mt-2 bg-white border border-gray-300 rounded text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             value={assignee ?? undefined}
             onChange={(e) => setAssignee(e.target.value)}
           >
@@ -133,22 +142,29 @@ const TaskFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
               </option>
             ))}
           </select>
+
+          {/* Status */}
           <select
-            className="w-full p-2 mt-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 mt-2 bg-white border border-gray-300 rounded text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             value={status}
             onChange={(e) => setStatus(e.target.value as TaskStatus)}
           >
             <option value="" hidden disabled>
               Select Status
             </option>
-            {taskStatuses.map(x =>  <option value={x}>{x}</option>)}
-            {/* Add your status options here */}
+            {taskStatuses.map((x) => (
+              <option key={x} value={x}>
+                {x}
+              </option>
+            ))}
           </select>
+
+          {/* Submit Button */}
           <button
-            className="mt-4 w-full bg-blue-500 py-2 rounded text-white hover:bg-blue-600"
+            className="mt-4 w-full bg-blue-500 py-2 rounded text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             type="submit"
           >
-            Add Task
+            Submit
           </button>
         </form>
       </div>

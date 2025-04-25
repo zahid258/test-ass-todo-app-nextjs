@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 import { XCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { IDataSourceResponse, IToDoRequest, IToDoResponse, IUserResponse, TaskStatus, taskStatuses } from "@/models";
+import {
+  IDataSourceResponse,
+  IToDoRequest,
+  IToDoResponse,
+  IUserResponse,
+  TaskStatus,
+  taskStatuses,
+} from "@/models";
 import { useAuthStore } from "@/store/authStore";
 import { useForm } from "react-hook-form";
 import { IResponseBase } from "@/models/inerfaces/response/response-base";
@@ -28,22 +35,21 @@ const UserFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
     formState: { errors },
   } = useForm<IUserResponse>();
 
-    const mutation = useMutation({
-      mutationFn: (payload: IUserResponse) => createUser(token, payload), // Ensure this returns a promise
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["users"] });
-        onClose();
-      },
-      onError: (error) => {
-        console.error("Error submitting task:", error);
-      },
-    });
+  const mutation = useMutation({
+    mutationFn: (payload: IUserResponse) => createUser(token, payload), // Ensure this returns a promise
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["users"] });
+      onClose();
+    },
+    onError: (error) => {
+      console.error("Error submitting task:", error);
+    },
+  });
 
   const onSubmit = (data: IUserResponse) => {
-      data.role = "User";
-      data.status = Number(data.status)
-      mutation.mutate(data)
-
+    data.role = "User";
+    data.status = Number(data.status);
+    mutation.mutate(data);
   };
 
   useEffect(() => {
@@ -115,12 +121,12 @@ const UserFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+      className="fixed inset-0  bg-black/50 backdrop-blur-sm flex items-center justify-center"
     >
-      <div className="bg-gray-800 p-6 rounded-lg w-96">
+      <div className="bg-white p-6 rounded-lg w-96">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-bold text-white">Create User</h2>
-          <XCircle className="cursor-pointer text-white" onClick={onClose} />
+          <h2 className="text-lg font-bold text-gray-800">Create User</h2>
+          <XCircle className="cursor-pointer text-gray-800" onClick={onClose} />
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -129,7 +135,7 @@ const UserFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
           <input
             type="text"
             placeholder="First Name"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("firstName", { required: "First Name is required" })}
           />
           {errors.firstName && (
@@ -139,14 +145,14 @@ const UserFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
           <input
             type="text"
             placeholder="Middle Name"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("middleName")}
           />
 
           <input
             type="text"
             placeholder="Last Name"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("lastName", { required: "Last Name is required" })}
           />
           {errors.lastName && (
@@ -156,7 +162,7 @@ const UserFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
           <input
             type="text"
             placeholder="User Name"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("userName", { required: "User Name is required" })}
           />
           {errors.userName && (
@@ -166,7 +172,7 @@ const UserFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
           <input
             type="email"
             placeholder="Email"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("email", {
               required: "Email is required",
               pattern: /^\S+@\S+$/i,
@@ -179,7 +185,7 @@ const UserFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
           <input
             type="password"
             placeholder="Password"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("password", {
               required: "Password is required",
               minLength: {
@@ -193,7 +199,7 @@ const UserFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
           )}
 
           <select
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("gender", { required: "Gender is required" })}
           >
             <option value="" hidden>
@@ -209,7 +215,7 @@ const UserFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
 
           <input
             type="date"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("dateOfBirth", {
               required: "Date of Birth is required",
             })}
@@ -221,7 +227,7 @@ const UserFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
           <input
             type="number"
             placeholder="Phone Number"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("phoneNum", {
               required: "Phone Number is required",
               minLength: {
@@ -233,15 +239,16 @@ const UserFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
           {errors.phoneNum && (
             <span className="text-red-500">{errors.phoneNum.message}</span>
           )}
+
           <select
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full p-2 bg-white border border-gray-300 rounded text-gray-800"
             {...register("status", { required: "Status is required" })}
           >
             <option value="" hidden>
               Select Status
             </option>
             <option value="1">Active</option>
-            <option value="0">In Active</option>
+            <option value="0">Inactive</option>
           </select>
           {errors.status && (
             <span className="text-red-500">{errors.status.message}</span>
@@ -251,7 +258,7 @@ const UserFormModal: React.FC<TaskFormProps> = ({ onClose }) => {
             className="mt-4 w-full bg-blue-500 py-2 rounded text-white hover:bg-blue-600"
             type="submit"
           >
-            Add User
+            Submit
           </button>
         </form>
       </div>

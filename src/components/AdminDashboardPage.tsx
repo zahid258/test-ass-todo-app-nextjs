@@ -39,30 +39,28 @@ console.log("todos", todos);
     queryFn: () => fetchUsers(token),
   });
   return (
-    <div className="h-screen bg-gray-900 text-white flex">
+    <div className="h-screen bg-gradient-to-br from-gray-50 to-gray-200 text-white flex">
       {/* Sidebar on the left */}
-      <div className="w-64">
+      <div className="w-64 bg-white p-4 rounded-l-3xl shadow-md">
         <Sidebar setIsCheck={setIsCheck} isCheck={isCheck} />
       </div>
 
       {/* Main content area */}
-      <div className="flex-1 p-6">
-        <h1 className="text-3xl font-bold">
+      <div className="flex-1 p-6 bg-white rounded-r-3xl shadow-md transition-all duration-300">
+        <h1 className="text-3xl font-bold text-gray-800">
           {isCheck ? "User Dashboard" : "Admin Dashboard"}
         </h1>
-
         <button
           onClick={() =>
             isCheck ? setUserModalOpen(true) : setModalOpen(true)
           }
-          className="bg-blue-500 px-4 py-2 rounded mt-4"
+          className="bg-blue-500 px-4 py-2 rounded mt-4 text-white font-semibold hover:bg-blue-600 active:scale-[0.98] transition-transform duration-200"
         >
           {isCheck ? "+ Add User" : "+ Add Task"}
         </button>
-
         {/* Loading states */}
         {todosLoading || usersLoading ? (
-          <p className="mt-4">Loading...</p>
+          <p className="mt-4 text-gray-600">Loading...</p>
         ) : todosError || usersError ? (
           <p className="mt-4 text-red-500">Failed to load data</p>
         ) : isCheck ? (
@@ -70,12 +68,12 @@ console.log("todos", todos);
         ) : (
           <TaskList tasks={todos} />
         )}
-
         {/* Modals */}
         {modalOpen && <TaskFormModal onClose={() => setModalOpen(false)} />}
         {userModalOpen && (
           <UserFormModal onClose={() => setUserModalOpen(false)} />
         )}
+          
       </div>
     </div>
   );

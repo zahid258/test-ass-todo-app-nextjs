@@ -102,31 +102,42 @@ const EditTaskFormModal: React.FC<TaskFormProps> = ({ onClose, task }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center px-4 z-50"
     >
-      <div className="bg-gray-800 p-6 rounded-lg w-96">
-        <div className="flex justify-between items-center">
-          <h2 className="text-lg font-bold">Create Task</h2>
-          <XCircle className="cursor-pointer" onClick={() => onClose(false)} />
+      <div className="bg-white  w-full max-w-md p-6 rounded-2xl shadow-xl transition-all duration-300">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold text-black">Update Task</h2>
+          <XCircle
+            className="w-6 h-6 text-gray-500 hover:text-red-500 cursor-pointer transition"
+            onClick={() => onClose(false)}
+          />
         </div>
-        <form onSubmit={handleSubmit} className="mt-4">
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Task Title */}
           <input
             type="text"
             placeholder="Task Title"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white placeholder-gray-500 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+
+          {/* Task Description */}
           <textarea
             placeholder="Task Description"
-            className="w-full p-2 mt-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white placeholder-gray-500 text-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+
+          {/* Assignee */}
           <select
-            className="w-full p-2 mt-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={assignee ?? undefined}
             onChange={(e) => setAssignee(e.target.value)}
           >
@@ -139,8 +150,10 @@ const EditTaskFormModal: React.FC<TaskFormProps> = ({ onClose, task }) => {
               </option>
             ))}
           </select>
+
+          {/* Status */}
           <select
-            className="w-full p-2 mt-2 bg-gray-700 border border-gray-600 rounded text-white"
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={status}
             onChange={(e) => setStatus(e.target.value as TaskStatus)}
           >
@@ -148,18 +161,22 @@ const EditTaskFormModal: React.FC<TaskFormProps> = ({ onClose, task }) => {
               Select Status
             </option>
             {taskStatuses.map((x) => (
-              <option value={x}>{x}</option>
+              <option key={x} value={x}>
+                {x}
+              </option>
             ))}
-            {/* Add your status options here */}
           </select>
+
+          {/* Submit Button */}
           <button
-            className="mt-4 w-full bg-blue-500 py-2 rounded text-white hover:bg-blue-600"
             type="submit"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg transition duration-200"
           >
-            Add Task
+           Save
           </button>
         </form>
       </div>
+         
     </motion.div>
   );
 };

@@ -18,49 +18,92 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-900 text-white">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200 px-4 py-8">
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
+        initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-gray-800 p-8 rounded-lg w-96"
+        className="w-full max-w-md bg-white rounded-3xl p-10 shadow-[0_10px_30px_rgba(0,0,0,0.05)] transition-all duration-300 animate-fade-in"
       >
-        <h2 className="text-2xl font-bold text-center">Sign Up</h2>
-        <form onSubmit={handleSignup} className="mt-4 space-y-4">
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <select
-            className="w-full p-2 bg-gray-700 border border-gray-600 rounded"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
+        <h2 className="text-3xl font-semibold text-gray-800 mb-8 text-center">
+          Create Account
+        </h2>
+
+        <form onSubmit={handleSignup} className="space-y-6">
+          {/* Email Input */}
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-600 mb-1"
+            >
+              Email Address
+            </label>
+            <input
+              id="email"
+              type="email"
+              placeholder="you@example.com"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 placeholder-gray-400 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Password Input */}
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-600 mb-1"
+            >
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              placeholder="••••••••"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 placeholder-gray-400 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* Role Selector */}
+          <div>
+            <label
+              htmlFor="role"
+              className="block text-sm font-medium text-gray-600 mb-1"
+            >
+              Role
+            </label>
+            <select
+              id="role"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="mt-8 w-full py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 active:scale-[0.98] transition-transform duration-200"
           >
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-          </select>
-          <button className="w-full bg-blue-500 py-2 rounded hover:bg-blue-600 transition">
             Sign Up
           </button>
         </form>
-        <p className="mt-4 text-center text-gray-400">
+
+        {/* Footer */}
+        <p className="mt-6 text-center text-gray-500">
           Already have an account?{" "}
-          <a href="/" className="text-blue-400">
+          <a href="/" className="text-blue-400 hover:underline transition">
             Login
           </a>
         </p>
       </motion.div>
+          
     </div>
   );
 };
